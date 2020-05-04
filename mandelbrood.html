@@ -12,6 +12,7 @@
       <label>Pixel size: <input step="1" type="number" v-model.number="pixelSize"></label>
       <label>Precision: <input step="0.2" type="number" v-model.number="precision"></label>
       <label>Boundary: <input step="100" type="number" v-model.number="boundary"></label>
+      <label>Pixel iterations: <input step="2" type="number" v-model.number="pixelIterations"></label>
       <label>Divisor: <input step="10" type="number" v-model.number="divisor"></label>
       <label>CxStart: <input step="0.2" type="number" v-model.number="cxStart"></label>
       <label>CyStart: <input step="0.2" type="number" v-model.number="cyStart"></label>
@@ -23,6 +24,7 @@
         :divisor="divisor"
         :cx-start="cxStart"
         :cy-start="cyStart"
+        :pixel-iterations="pixelIterations"
         >
       </mandelbrood>
     </div>
@@ -37,13 +39,14 @@
                       return value || 1;
                   }
               },
-               pixelSize: [Number,String],
-               divisor: [Number,String],
-               cxStart: [Number,String],
-               cyStart: [Number,String],
-               boundary: [Number,String]
+              pixelSize: [Number,String],
+              divisor: [Number,String],
+              cxStart: [Number,String],
+              cyStart: [Number,String],
+              boundary: [Number,String],
+              pixelIterations: [Number,String],
           },
-          template: '<canvas id="myCanvas" width="1200" height="900" v-bind:pixelSize="pixelSize"></canvas>',
+          template: '<canvas id="myCanvas" width="1200" height="900"></canvas>',
           mounted: function () {
               //this.paintFractal(-2, -2, 50, 1, 4, 200);
               this.paintFractal(
@@ -52,7 +55,8 @@
                   this.divisor,
                   this.precision,
                   this.pixelSize,
-                  this.boundary
+                  this.boundary,
+                  this.pixelIterations
               );
           },
           watch: {
@@ -66,7 +70,8 @@
                           this.divisor,
                           this.precision,
                           this.pixelSize,
-                          this.boundary
+                          this.boundary,
+                          this.pixelIterations
                       );
                   }
               }
@@ -79,17 +84,11 @@
                   ctx.lineTo(200, 100);
                   ctx.stroke();
               },
-              paintFractal : function (cxStart = -2, cyStart = -2, divisor = 50, precision = 1, pixelSize = 4, boundary = 200) {
+              paintFractal : function (cxStart = -2, cyStart = -2, divisor = 50, precision = 1, pixelSize = 4, boundary = 200, pixelIterations = 100) {
                   var canvasObject = this.$el;
                   var ctx = canvasObject.getContext("2d");
                   ctx.clearRect(0, 0, canvasObject.width, canvasObject.height);
                   
-                  //var pixelSize = 4;
-
-                  // var imageData = ctx.createImageData(1,1); // only do this once per page
-                  // var pixel  = imageData.data;                        // only do this once per page
-
-                  //var boundary = 200;
                   for (var y = 1.0; y < boundary; y += precision) {
                       for (var x = 1.0; x < boundary; x += precision) {
                           var i = 0;
@@ -98,7 +97,7 @@
                           var cx = cxStart + x / divisor;
                           var cy = cyStart + y / divisor;
                                                     
-                          while ( (i < 255) && (zx * zx + zy * zy) < 4 ) {
+                          while ( (i < pixelIterations) && (zx * zx + zy * zy) < 4 ) {
                               xt = zx * zy;
                               zx = zx * zx - zy * zy + cx;
                               zy = 2 * xt + cy;
@@ -109,6 +108,7 @@
                           ctx.fillRect( x * pixelSize, y * pixelSize, pixelSize, pixelSize );
                       }
                   }
+
               }
           }
       });
@@ -128,7 +128,8 @@
               cxStart: -2,
               cyStart: -2,
               boundary: 200,
-              precision: 1
+              precision: 1,
+              pixelIterations: 50
           },
           watch: {
               $data: {
