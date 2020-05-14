@@ -1,7 +1,3 @@
-layout: page
-title: "MANDELBROOD"
-permalink: /
-
 <html>
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -16,7 +12,6 @@ permalink: /
   </head>
   <body>
     <div id="vue-app">
-      <p>MandelBrood</p>
       <label>Pixel size: <input step="1" type="number" v-model.number="pixelSize"></label>
       <label>Precision: <input step="0.2" type="number" v-model.number="precision"></label>
       <label>Boundary: <input step="100" type="number" v-model.number="boundary"></label>
