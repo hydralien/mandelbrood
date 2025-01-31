@@ -7,8 +7,8 @@
       }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-    <script src="https://unpkg.com/vue-router"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://unpkg.com/vue-router@3/dist/vue-router.js"></script>
   </head>
   <body>
     <div id="vue-app">
@@ -82,27 +82,27 @@
           },
           methods: {
               canvasTest: function () {
-                  var canvasObject = this.$el;
-                  var ctx = canvasObject.getContext("2d");
+                  const canvasObject = this.$el;
+                  const ctx = canvasObject.getContext("2d");
                   ctx.moveTo(0, 0);
                   ctx.lineTo(200, 100);
                   ctx.stroke();
               },
               paintFractal : function (cxStart = -2, cyStart = -2, divisor = 50, precision = 1, pixelSize = 4, boundary = 200, pixelIterations = 100) {
-                  var canvasObject = this.$el;
-                  var ctx = canvasObject.getContext("2d");
+                  const canvasObject = this.$el;
+                  const ctx = canvasObject.getContext("2d");
                   ctx.clearRect(0, 0, canvasObject.width, canvasObject.height);
-                  
-                  for (var y = 1.0; y < boundary; y += precision) {
-                      for (var x = 1.0; x < boundary; x += precision) {
-                          var i = 0;
-                          var zx = 0;
-                          var zy = 0;
-                          var cx = cxStart + x / divisor;
-                          var cy = cyStart + y / divisor;
-                                                    
+
+                  for (let y = 1.0; y < boundary; y += precision) {
+                      for (let x = 1.0; x < boundary; x += precision) {
+                          let i = 0;
+                          let zx = 0;
+                          let zy = 0;
+                          let cx = cxStart + x / divisor;
+                          let cy = cyStart + y / divisor;
+
                           while ( (i < pixelIterations) && (zx * zx + zy * zy) < 4 ) {
-                              xt = zx * zy;
+                              let xt = zx * zy;
                               zx = zx * zx - zy * zy + cx;
                               zy = 2 * xt + cy;
                               i = i + 1;
@@ -117,13 +117,13 @@
           }
       });
 
-   
-      var router = new VueRouter({
+
+      const router = new VueRouter({
           mode: 'history',
           routes: []
       });
-      
-      var app = new Vue({
+
+      const app = new Vue({
           router,
           el: '#vue-app',
           data: {
